@@ -92,6 +92,23 @@ async def rename_dataset(
     return schemas.DatasetRead.model_validate(updated)
 
 
+@router.post("/{dataset_id}/target-column", response_model=schemas.DatasetRead)
+async def create_target_column(
+    dataset_id: int,
+    payload: schemas.CreateTargetColumnRequest,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> schemas.DatasetRead:
+    """Create a target column by copying values from a source column."""
+
+    dataset_service = service.DatasetService(db)
+    dataset = dataset_service.get_dataset(current_user, dataset_id)
+    updated = dataset_service.create_target_column(
+        dataset, payload.source_column, payload.target_column_name
+    )
+    return schemas.DatasetRead.model_validate(updated)
+
+
 @router.delete("/{dataset_id}", status_code=204)
 async def delete_dataset(
     dataset_id: int,

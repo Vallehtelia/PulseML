@@ -5,13 +5,16 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
+import torch
+
 logger = logging.getLogger(__name__)
 
 
 def get_available_device() -> str:
     """Return the device string to be used for training."""
 
-    # Phase 1 only supports CPU stubs.
+    if torch.cuda.is_available():
+        return "cuda"
     return "cpu"
 
 

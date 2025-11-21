@@ -1,3 +1,182 @@
+# Environment variables
 .env
+.env.local
+.env.*.local
+*.env
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+cython_debug/
 
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Node.js / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+dist/
+dist-ssr/
+*.local
+.cache/
+
+# Frontend build outputs
+frontend/dist/
+frontend/.vite/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+postgres_data/
+db_data/
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Data and datasets
+data/
+*.csv
+*.parquet
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+backend_data/
+training_runs/
+checkpoints/
+models/
+*.pt
+*.pth
+*.ckpt
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# ML/AI specific
+wandb/
+mlruns/
+.mlflow/
+*.onnx
+*.tflite
+*.pb
+
+# Secrets and credentials
+secrets/
+*.pem
+*.key
+*.cert
+credentials.json
+service-account.json
+
+# Backup files
+*.backup
+*.old
+*.orig
+
+# Local configuration
+local_settings.py
+local_config.py
+
+# Redis dump
+dump.rdb
+
+# Alembic
+# Keep migrations but ignore generated files if any

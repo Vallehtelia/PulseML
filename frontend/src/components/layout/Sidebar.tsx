@@ -23,7 +23,19 @@ const Sidebar = () => {
       }}
     >
       <div style={{ marginBottom: "2rem" }}>
-        <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>PulseML</div>
+        <div style={{ marginBottom: "0.5rem" }}>
+          <img
+            src="/PulseML-Logo.png"
+            alt="PulseML Logo"
+            style={{
+              width: "100%",
+              height: "auto",
+              objectFit: "contain",
+              display: "block",
+              maxHeight: "120px",
+            }}
+          />
+        </div>
         <div style={{ color: "var(--color-text-secondary)", fontSize: "0.875rem" }}>
           GPU-powered ML studio
         </div>

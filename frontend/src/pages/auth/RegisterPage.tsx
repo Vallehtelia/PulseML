@@ -33,17 +33,38 @@ const RegisterPage = () => {
       style={{
         minHeight: "100vh",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         background: "var(--color-bg)",
+        gap: "2rem",
       }}
     >
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+        <img
+          src="/PulseML-Logo.png"
+          alt="PulseML Logo"
+          style={{
+            height: "200px",
+            width: "auto",
+            objectFit: "contain",
+            display: "block",
+          }}
+        />
+        <div style={{ color: "var(--color-text-secondary)", fontSize: "0.875rem" }}>
+          GPU-powered ML studio
+        </div>
+      </div>
       <Card
-        title="Create PulseML account"
+        title="Create account"
         description="Spin up experiments in minutes"
         className="auth-card"
       >
-        <form className="grid" style={{ gap: "1rem", width: "320px" }} onSubmit={handleSubmit}>
+        <form
+          className="grid"
+          style={{ gap: "1rem", width: "100%", maxWidth: "320px", margin: "0 auto" }}
+          onSubmit={handleSubmit}
+        >
           <label className="grid" style={{ gap: "0.5rem" }}>
             <span>Email</span>
             <Input

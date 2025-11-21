@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import List
 from uuid import uuid4
 
+import pandas as pd
 from fastapi import HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
@@ -133,6 +134,70 @@ class DatasetService:
         self.db.commit()
         self.db.refresh(dataset)
         logger.info("Renamed dataset %s to %s", dataset.id, payload.name)
+        return dataset
+
+    def create_target_column(
+        self, dataset: models.Dataset, source_column: str, target_column_name: str | None = None
+    ) -> models.Dataset:
+        """Create a target column by copying values from a source column."""
+
+        file_path = Path(dataset.file_path)
+        if not file_path.exists():
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Dataset file not found"
+            )
+
+        # Read the dataset
+        df = pd.read_csv(file_path)
+
+        # Check if source column exists
+        if source_column not in df.columns:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Source column '{source_column}' not found in dataset",
+            )
+
+        # Determine target column name
+        if target_column_name is None:
+            target_column_name = "target"
+        
+        # Check if target column already exists
+        if target_column_name in df.columns:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Column '{target_column_name}' already exists",
+            )
+
+        # Copy the source column to target column
+        df[target_column_name] = df[source_column].copy()
+
+        # Save the updated dataset
+        df.to_csv(file_path, index=False)
+        logger.info(
+            "Created target column '%s' from '%s' in dataset %s",
+            target_column_name,
+            source_column,
+            dataset.id,
+        )
+
+        # Re-analyze the dataset to update metadata
+        meta = utils.analyze_dataset(file_path)
+
+        # Set the new target column's role to "target"
+        columns = meta.get("columns", [])
+        for col in columns:
+            if col["name"] == target_column_name:
+                col["role"] = "target"
+                # Also update suggested_roles
+                meta.setdefault("suggested_roles", {})[target_column_name] = "target"
+
+        dataset.meta = meta
+        dataset.file_path = str(file_path)
+        self.db.add(dataset)
+        self.db.commit()
+        self.db.refresh(dataset)
+
+        logger.info("Updated dataset %s metadata with new target column", dataset.id)
         return dataset
 
     def delete_dataset(self, dataset: models.Dataset) -> None:

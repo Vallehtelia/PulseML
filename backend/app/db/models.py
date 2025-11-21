@@ -120,6 +120,12 @@ class TrainingRun(Base):
         String(512), nullable=True
     )
     logs_path: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
+    metrics_summary: Mapped[Optional[Dict[str, Any]]] = mapped_column(
+        JSONB, nullable=True
+    )
+    device: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    current_epoch: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    total_epochs: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         default=func.now(), nullable=False, server_default=func.now()
     )

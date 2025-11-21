@@ -27,6 +27,10 @@ class TrainingRunRead(BaseModel):
     best_metric_value: Optional[float] = None
     model_checkpoint_path: Optional[str] = None
     logs_path: Optional[str] = None
+    metrics_summary: Optional[Dict[str, Any]] = None
+    device: Optional[str] = None
+    current_epoch: Optional[int] = None
+    total_epochs: Optional[int] = None
     created_at: datetime
     started_at: Optional[datetime] = None
     finished_at: Optional[datetime] = None

@@ -53,6 +53,37 @@ class TrainingService:
         dataset = self._get_dataset(user, payload.dataset_id)
         template = self._get_model_template(payload.model_template_id)
 
+        # Validate dataset has required column roles
+        meta = dataset.meta or {}
+        columns = meta.get("columns", [])
+        feature_cols = [
+            col["name"]
+            for col in columns
+            if col.get("role") == "feature"
+        ]
+        target_cols = [
+            col["name"]
+            for col in columns
+            if col.get("role") == "target"
+        ]
+
+        if not feature_cols:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    "Dataset has no columns marked as 'feature'. "
+                    "Please set column roles in the dataset detail page."
+                )
+            )
+        if not target_cols:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    "Dataset has no columns marked as 'target'. "
+                    "Please set at least one column role to 'target' in the dataset detail page."
+                )
+            )
+
         run = models.TrainingRun(
             owner_id=user.id,
             dataset_id=dataset.id,
@@ -93,9 +124,34 @@ class TrainingService:
         return run
 
     def get_metrics(self, run: models.TrainingRun) -> schemas.TrainingRunMetrics:
-        """Return placeholder metrics."""
+        """Return training metrics from log file."""
 
-        return schemas.TrainingRunMetrics(run_id=run.id, metrics=[])
+        metrics = []
+        
+        if run.logs_path:
+            import csv
+            from pathlib import Path
+            
+            logs_path = Path(run.logs_path)
+            if logs_path.exists():
+                try:
+                    with open(logs_path, "r") as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            metrics.append({
+                                "epoch": int(row.get("epoch", 0)),
+                                "train_loss": float(row.get("train_loss", 0.0)),
+                                "val_loss": float(row.get("val_loss", 0.0)),
+                                "lr": float(row.get("lr", 0.0)),
+                            })
+                except Exception as e:
+                    # If file exists but can't be read, return empty metrics
+                    # Log error but don't fail the request
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"Failed to read metrics from {logs_path}: {e}")
+
+        return schemas.TrainingRunMetrics(run_id=run.id, metrics=metrics)
 
     def stop_run(self, run: models.TrainingRun) -> models.TrainingRun:
         """Mark a run as stopped."""

@@ -46,6 +46,10 @@ export interface TrainingRun {
   best_metric_value?: number | null;
   model_checkpoint_path?: string | null;
   logs_path?: string | null;
+  metrics_summary?: Record<string, unknown> | null;
+  device?: string | null;
+  current_epoch?: number | null;
+  total_epochs?: number | null;
   created_at: string;
   started_at?: string | null;
   finished_at?: string | null;
@@ -54,7 +58,15 @@ export interface TrainingRun {
 
 export interface TrainingMetric {
   run_id: number;
-  metrics: { step?: number; epoch?: number; value?: number; name?: string }[];
+  metrics: {
+    epoch?: number;
+    step?: number;
+    train_loss?: number;
+    val_loss?: number;
+    lr?: number;
+    value?: number;
+    name?: string;
+  }[];
 }
 
 export interface HyperParamField {

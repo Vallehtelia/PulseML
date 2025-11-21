@@ -48,4 +48,16 @@ export const deleteDataset = async (datasetId: number): Promise<void> => {
   await apiClient.delete(`/datasets/${datasetId}`);
 };
 
+export const createTargetColumn = async (
+  datasetId: number,
+  sourceColumn: string,
+  targetColumnName?: string,
+): Promise<Dataset> => {
+  const { data } = await apiClient.post<Dataset>(`/datasets/${datasetId}/target-column`, {
+    source_column: sourceColumn,
+    target_column_name: targetColumnName,
+  });
+  return data;
+};
+
 

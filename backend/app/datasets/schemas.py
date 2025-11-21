@@ -71,3 +71,10 @@ class DatasetRename(BaseModel):
 
     name: str
     description: str | None = None
+
+
+class CreateTargetColumnRequest(BaseModel):
+    """Payload for creating a target column from an existing column."""
+
+    source_column: str
+    target_column_name: str | None = None
