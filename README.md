@@ -369,22 +369,4 @@ docker-compose run --rm backend alembic upgrade head
 
 ---
 
-## 📄 License
-
-[Add your license here]
-
----
-
-## 🤝 Contributing
-
-[Add contribution guidelines here]
-
----
-
-## 📧 Support
-
-For issues and questions, please open a GitHub issue or contact [your-email@example.com].
-
----
-
 **Built with ❤️ for the machine learning community**
