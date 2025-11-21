@@ -65,3 +65,9 @@ class DatasetSchemaUpdate(BaseModel):
 
     columns: List[ColumnRoleUpdate]
 
+
+class DatasetRename(BaseModel):
+    """Payload for renaming a dataset."""
+
+    name: str
+    description: str | None = None

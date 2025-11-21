@@ -19,16 +19,22 @@ const Tooltip = ({ label, children }: Props) => {
         <span
           style={{
             position: "absolute",
-            top: "calc(100% + 0.25rem)",
-            left: "50%",
-            transform: "translateX(-50%)",
+            top: "calc(100% + 0.5rem)",
+            left: "0",
             background: "var(--color-surface-alt)",
             border: "1px solid var(--color-border)",
-            padding: "0.5rem",
+            padding: "0.75rem 1rem",
             borderRadius: "0.5rem",
-            width: "200px",
-            zIndex: 10,
+            minWidth: "250px",
+            maxWidth: "350px",
+            width: "max-content",
+            zIndex: 1001,
             fontSize: "0.875rem",
+            lineHeight: "1.5",
+            whiteSpace: "normal",
+            wordWrap: "break-word",
+            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)",
+            pointerEvents: "none",
           }}
         >
           {label}

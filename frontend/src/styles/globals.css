@@ -41,12 +41,14 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 th,
 td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
 }
 
 .grid {
@@ -63,6 +65,22 @@ td {
 
 .auth-card {
   width: min(420px, 90vw);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+
+/* Prevent layout shift on wide screens */
+* {
+  max-width: 100%;
+}
+
+img, video {
+  height: auto;
 }
 
 

@@ -76,3 +76,30 @@ async def update_dataset_schema(
     updated = dataset_service.update_schema(dataset, payload)
     return schemas.DatasetRead.model_validate(updated)
 
+
+@router.patch("/{dataset_id}", response_model=schemas.DatasetRead)
+async def rename_dataset(
+    dataset_id: int,
+    payload: schemas.DatasetRename,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> schemas.DatasetRead:
+    """Rename a dataset and update its description."""
+
+    dataset_service = service.DatasetService(db)
+    dataset = dataset_service.get_dataset(current_user, dataset_id)
+    updated = dataset_service.rename_dataset(dataset, payload)
+    return schemas.DatasetRead.model_validate(updated)
+
+
+@router.delete("/{dataset_id}", status_code=204)
+async def delete_dataset(
+    dataset_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> None:
+    """Delete a dataset and its associated file."""
+
+    dataset_service = service.DatasetService(db)
+    dataset = dataset_service.get_dataset(current_user, dataset_id)
+    dataset_service.delete_dataset(dataset)

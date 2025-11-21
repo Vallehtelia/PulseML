@@ -1,5 +1,10 @@
 # PulseML
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Node 20+](https://img.shields.io/badge/node-20+-green.svg)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
+
 **PulseML** is a modern, GPU-friendly machine learning platform featuring automated hyperparameter optimization and comprehensive training pipeline management. This repository contains both the FastAPI backend and React/TypeScript frontend for Phase 2 of the project.
 
 ---
@@ -9,16 +14,23 @@
 ### Backend (FastAPI)
 - **User Authentication**: JWT-based auth with access and refresh tokens
 - **Dataset Management**: Upload, analyze, and preview CSV datasets with automatic type inference
+  - **No Row Limits**: Analyze datasets with 70k+ rows without artificial restrictions
+  - **Rename Datasets**: Update dataset names and descriptions
+  - **Delete Datasets**: Remove datasets with confirmation dialogs
 - **Schema Management**: Define feature roles (feature/target/timestamp/ignore) for ML workflows
-- **Model Templates**: Pre-configured model templates with dynamic hyperparameter schemas
+- **Model Templates**: Pre-configured model templates with comprehensive hyperparameter schemas
 - **Training Run Orchestration**: Track training runs with status management (pending/queued/running/completed/failed/stopped)
 - **PostgreSQL + Alembic**: Full database migrations and JSONB support for flexible metadata
 - **Redis Integration**: Job queue infrastructure (Phase 3 will use for distributed training)
 
 ### Frontend (React + Vite + TypeScript)
 - **Modern UI**: Dark theme with responsive layout and professional color palette
+  - **Responsive Design**: Content scales properly on all screen widths with centered layout
+  - **Mobile-Friendly**: Tables scroll horizontally while content adapts to screen size
 - **Dataset Upload & Preview**: Drag-and-drop CSV upload with column-level schema management
-- **Dynamic Hyperparameter Forms**: Auto-generated forms based on model template schemas with tooltips
+- **Dynamic Hyperparameter Forms**: Auto-generated forms based on model template schemas
+  - **Informative Tooltips**: Comprehensive, well-formatted parameter explanations
+  - **Educational Content**: Each hyperparameter includes best practices and typical ranges
 - **Training Run Dashboard**: Real-time status tracking and metrics visualization (ready for Phase 3)
 - **React Query**: Optimistic updates and intelligent caching
 - **Protected Routes**: Auth-guarded pages with automatic token refresh
@@ -113,13 +125,15 @@ Open your browser and navigate to:
 ### Working with Datasets
 3. **Upload a Dataset**: 
    - Go to **Datasets** → **Upload Dataset**
-   - Drop a CSV file or click to browse
+   - Drop a CSV file or click to browse (supports large datasets with 70k+ rows)
    - Provide a name and optional description
    - Backend automatically analyzes columns, infers types, and generates statistics
 
-4. **Configure Schema**:
+4. **Manage Datasets**:
    - Click on a dataset to view details
-   - Assign roles to each column:
+   - **Rename**: Update dataset name and description using the "Rename" button
+   - **Delete**: Remove datasets with confirmation dialog using the "Delete" button
+   - **Configure Schema**: Assign roles to each column:
      - **Feature**: Input variable for the model
      - **Target**: Prediction target (label)
      - **Timestamp**: Time-series index
@@ -366,6 +380,24 @@ docker-compose run --rm backend alembic upgrade head
 - **Model Artifacts**: Download trained models and logs
 - **AI Hyperparameter Assistant**: Automated tuning with historical analysis
 - **Multi-GPU Support**: Distributed training across GPUs
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📧 Contact
+
+For questions, suggestions, or issues, please open an issue on GitHub.
 
 ---
 

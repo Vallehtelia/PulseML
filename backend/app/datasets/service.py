@@ -121,3 +121,37 @@ class DatasetService:
         self.db.refresh(dataset)
         return dataset
 
+    def rename_dataset(
+        self, dataset: models.Dataset, payload: schemas.DatasetRename
+    ) -> models.Dataset:
+        """Rename a dataset and optionally update its description."""
+
+        dataset.name = payload.name
+        if payload.description is not None:
+            dataset.description = payload.description
+        self.db.add(dataset)
+        self.db.commit()
+        self.db.refresh(dataset)
+        logger.info("Renamed dataset %s to %s", dataset.id, payload.name)
+        return dataset
+
+    def delete_dataset(self, dataset: models.Dataset) -> None:
+        """Delete a dataset and its associated file."""
+
+        dataset_id = dataset.id
+        file_path = Path(dataset.file_path)
+        
+        # Delete from database first
+        self.db.delete(dataset)
+        self.db.commit()
+        
+        # Delete the file if it exists
+        if file_path.exists():
+            try:
+                file_path.unlink()
+                logger.info("Deleted dataset file: %s", file_path)
+            except Exception as e:
+                logger.warning("Failed to delete dataset file %s: %s", file_path, e)
+        
+        logger.info("Deleted dataset %s", dataset_id)
+

@@ -65,7 +65,9 @@ def analyze_dataset(file_path: Path) -> Dict[str, Any]:
     """Analyze a CSV dataset and return metadata."""
 
     logger.info("Analyzing dataset at %s", file_path)
-    df = pd.read_csv(file_path, nrows=1000)
+    # Read entire dataset to get accurate row count and statistics
+    # For very large files, pandas is efficient with chunked reading internally
+    df = pd.read_csv(file_path)
     n_rows, n_cols = df.shape
     columns: List[Dict[str, Any]] = []
     suggested_roles: Dict[str, str] = {}

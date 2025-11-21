@@ -32,4 +32,20 @@ export const updateDatasetSchema = async (
   return data;
 };
 
+export const renameDataset = async (
+  datasetId: number,
+  name: string,
+  description?: string | null,
+): Promise<Dataset> => {
+  const { data } = await apiClient.patch<Dataset>(`/datasets/${datasetId}`, {
+    name,
+    description,
+  });
+  return data;
+};
+
+export const deleteDataset = async (datasetId: number): Promise<void> => {
+  await apiClient.delete(`/datasets/${datasetId}`);
+};
+
 

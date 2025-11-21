@@ -12,10 +12,14 @@ const Sidebar = () => {
     <aside
       style={{
         width: "240px",
+        minWidth: "240px",
+        flexShrink: 0,
         background: "var(--color-surface)",
         borderRight: "1px solid var(--color-border)",
         minHeight: "100vh",
         padding: "1.5rem 1rem",
+        zIndex: 100,
+        position: "relative",
       }}
     >
       <div style={{ marginBottom: "2rem" }}>
